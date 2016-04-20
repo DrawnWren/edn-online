@@ -44,6 +44,11 @@
   [e]
   (map edn->types e))
 
+(defn- edn-set->types
+  "#{a} -> #{[(type a) a]}"
+  [e]
+  (into #{} (map edn->types e)))
+
 (defn edn->types
   "Returns [(type e) e], is called recursively on collections and maintains their structure in the return value."
   [e]
@@ -53,6 +58,7 @@
       (= et clojure.lang.PersistentArrayMap) [et (edn-map->types e)]
       (= et clojure.lang.PersistentVector) [et (edn-vec->types e)]
       (= et clojure.lang.PersistentList) [et (edn-lis->types e)]
+      (= et clojure.lang.PersistentHashSet) [et (edn-set->types e)]
       ;;otherwise, it's an atom
       :else [et e])))
 
