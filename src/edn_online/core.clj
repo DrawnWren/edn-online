@@ -47,7 +47,7 @@
 (defn- edn-set->types
   "#{a} -> #{[(type a) a]}"
   [e]
-  (into #{} (map edn->types e)))
+  (set (map edn->types e)))
 
 (defn edn->types
   "Returns [(type e) e], is called recursively on collections and maintains their structure in the return value."
